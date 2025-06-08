@@ -1,0 +1,16 @@
+syntax = "proto3";
+package bitmex;
+
+option go_package = "radiopapus.bitmex.v1";
+
+service EchoService {
+  rpc Ping (PingRequest) returns (PingResponse);
+}
+
+// The request message containing the user's name.
+message PingRequest {}
+
+// The response message containing the greetings
+message PingResponse {
+  string reply = 1;
+}
