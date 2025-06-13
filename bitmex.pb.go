@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.30.2
-// source: bitmex/v1.0.0/bitmex.proto
+// source: bitmex.proto
 
-package radiopapus_bitmex_v1_0_0
+package bitmex_grpc_proto
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -30,7 +30,7 @@ type PingRequest struct {
 
 func (x *PingRequest) Reset() {
 	*x = PingRequest{}
-	mi := &file_bitmex_v1_0_0_bitmex_proto_msgTypes[0]
+	mi := &file_bitmex_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -42,7 +42,7 @@ func (x *PingRequest) String() string {
 func (*PingRequest) ProtoMessage() {}
 
 func (x *PingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_bitmex_v1_0_0_bitmex_proto_msgTypes[0]
+	mi := &file_bitmex_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +55,7 @@ func (x *PingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingRequest.ProtoReflect.Descriptor instead.
 func (*PingRequest) Descriptor() ([]byte, []int) {
-	return file_bitmex_v1_0_0_bitmex_proto_rawDescGZIP(), []int{0}
+	return file_bitmex_proto_rawDescGZIP(), []int{0}
 }
 
 // The response message containing the greetings
@@ -68,7 +68,7 @@ type PingResponse struct {
 
 func (x *PingResponse) Reset() {
 	*x = PingResponse{}
-	mi := &file_bitmex_v1_0_0_bitmex_proto_msgTypes[1]
+	mi := &file_bitmex_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -80,7 +80,7 @@ func (x *PingResponse) String() string {
 func (*PingResponse) ProtoMessage() {}
 
 func (x *PingResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_bitmex_v1_0_0_bitmex_proto_msgTypes[1]
+	mi := &file_bitmex_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -93,7 +93,7 @@ func (x *PingResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingResponse.ProtoReflect.Descriptor instead.
 func (*PingResponse) Descriptor() ([]byte, []int) {
-	return file_bitmex_v1_0_0_bitmex_proto_rawDescGZIP(), []int{1}
+	return file_bitmex_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *PingResponse) GetReply() string {
@@ -103,35 +103,35 @@ func (x *PingResponse) GetReply() string {
 	return ""
 }
 
-var File_bitmex_v1_0_0_bitmex_proto protoreflect.FileDescriptor
+var File_bitmex_proto protoreflect.FileDescriptor
 
-const file_bitmex_v1_0_0_bitmex_proto_rawDesc = "" +
+const file_bitmex_proto_rawDesc = "" +
 	"\n" +
-	"\x1abitmex/v1.0.0/bitmex.proto\x12\x06bitmex\"\r\n" +
+	"\fbitmex.proto\x12\x06bitmex\"\r\n" +
 	"\vPingRequest\"$\n" +
 	"\fPingResponse\x12\x14\n" +
 	"\x05reply\x18\x01 \x01(\tR\x05reply2@\n" +
 	"\vEchoService\x121\n" +
-	"\x04Ping\x12\x13.bitmex.PingRequest\x1a\x14.bitmex.PingResponseB\x1aZ\x18radiopapus.bitmex.v1.0.0b\x06proto3"
+	"\x04Ping\x12\x13.bitmex.PingRequest\x1a\x14.bitmex.PingResponseB)Z'github.com/radiopapus/bitmex-grpc-protob\x06proto3"
 
 var (
-	file_bitmex_v1_0_0_bitmex_proto_rawDescOnce sync.Once
-	file_bitmex_v1_0_0_bitmex_proto_rawDescData []byte
+	file_bitmex_proto_rawDescOnce sync.Once
+	file_bitmex_proto_rawDescData []byte
 )
 
-func file_bitmex_v1_0_0_bitmex_proto_rawDescGZIP() []byte {
-	file_bitmex_v1_0_0_bitmex_proto_rawDescOnce.Do(func() {
-		file_bitmex_v1_0_0_bitmex_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_bitmex_v1_0_0_bitmex_proto_rawDesc), len(file_bitmex_v1_0_0_bitmex_proto_rawDesc)))
+func file_bitmex_proto_rawDescGZIP() []byte {
+	file_bitmex_proto_rawDescOnce.Do(func() {
+		file_bitmex_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_bitmex_proto_rawDesc), len(file_bitmex_proto_rawDesc)))
 	})
-	return file_bitmex_v1_0_0_bitmex_proto_rawDescData
+	return file_bitmex_proto_rawDescData
 }
 
-var file_bitmex_v1_0_0_bitmex_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_bitmex_v1_0_0_bitmex_proto_goTypes = []any{
+var file_bitmex_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_bitmex_proto_goTypes = []any{
 	(*PingRequest)(nil),  // 0: bitmex.PingRequest
 	(*PingResponse)(nil), // 1: bitmex.PingResponse
 }
-var file_bitmex_v1_0_0_bitmex_proto_depIdxs = []int32{
+var file_bitmex_proto_depIdxs = []int32{
 	0, // 0: bitmex.EchoService.Ping:input_type -> bitmex.PingRequest
 	1, // 1: bitmex.EchoService.Ping:output_type -> bitmex.PingResponse
 	1, // [1:2] is the sub-list for method output_type
@@ -141,26 +141,26 @@ var file_bitmex_v1_0_0_bitmex_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_bitmex_v1_0_0_bitmex_proto_init() }
-func file_bitmex_v1_0_0_bitmex_proto_init() {
-	if File_bitmex_v1_0_0_bitmex_proto != nil {
+func init() { file_bitmex_proto_init() }
+func file_bitmex_proto_init() {
+	if File_bitmex_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_bitmex_v1_0_0_bitmex_proto_rawDesc), len(file_bitmex_v1_0_0_bitmex_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_bitmex_proto_rawDesc), len(file_bitmex_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_bitmex_v1_0_0_bitmex_proto_goTypes,
-		DependencyIndexes: file_bitmex_v1_0_0_bitmex_proto_depIdxs,
-		MessageInfos:      file_bitmex_v1_0_0_bitmex_proto_msgTypes,
+		GoTypes:           file_bitmex_proto_goTypes,
+		DependencyIndexes: file_bitmex_proto_depIdxs,
+		MessageInfos:      file_bitmex_proto_msgTypes,
 	}.Build()
-	File_bitmex_v1_0_0_bitmex_proto = out.File
-	file_bitmex_v1_0_0_bitmex_proto_goTypes = nil
-	file_bitmex_v1_0_0_bitmex_proto_depIdxs = nil
+	File_bitmex_proto = out.File
+	file_bitmex_proto_goTypes = nil
+	file_bitmex_proto_depIdxs = nil
 }
