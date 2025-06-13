@@ -12,5 +12,5 @@ message PingRequest {}
 
 // The response message containing the greetings
 message PingResponse {
-  string reply = 1;
+  string Reply = 1;
 }

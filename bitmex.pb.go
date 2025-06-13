@@ -61,7 +61,7 @@ func (*PingRequest) Descriptor() ([]byte, []int) {
 // The response message containing the greetings
 type PingResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Reply         string                 `protobuf:"bytes,1,opt,name=reply,proto3" json:"reply,omitempty"`
+	Reply         string                 `protobuf:"bytes,1,opt,name=Reply,proto3" json:"Reply,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -110,7 +110,7 @@ const file_bitmex_proto_rawDesc = "" +
 	"\fbitmex.proto\x12\x06bitmex\"\r\n" +
 	"\vPingRequest\"$\n" +
 	"\fPingResponse\x12\x14\n" +
-	"\x05reply\x18\x01 \x01(\tR\x05reply2@\n" +
+	"\x05Reply\x18\x01 \x01(\tR\x05Reply2@\n" +
 	"\vEchoService\x121\n" +
 	"\x04Ping\x12\x13.bitmex.PingRequest\x1a\x14.bitmex.PingResponseB)Z'github.com/radiopapus/bitmex-grpc-protob\x06proto3"
 

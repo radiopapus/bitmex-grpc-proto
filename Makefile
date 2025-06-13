@@ -3,4 +3,4 @@ proto: proto/bitmex.proto
 		echo "error: protoc not installed" >&2; \
 		exit 1; \
 	fi
-	protoc -I proto proto/*.proto --go_out=. --go_opt=paths=source_relative
+	protoc -I proto proto/*.proto --go_out=. --go-grpc_out=. --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative
