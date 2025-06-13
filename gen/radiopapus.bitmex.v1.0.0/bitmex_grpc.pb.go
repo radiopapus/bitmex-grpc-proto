@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.30.2
-// source: bitmex/v1/bitmex.proto
+// source: bitmex/v1.0.0/bitmex.proto
 
-package radiopapus_bitmex_v1
+package radiopapus_bitmex_v1_0_0
 
 import (
 	context "context"
@@ -117,5 +117,5 @@ var EchoService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "bitmex/v1/bitmex.proto",
+	Metadata: "bitmex/v1.0.0/bitmex.proto",
 }

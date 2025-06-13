@@ -1,4 +1,4 @@
-VERSION ?= v1
+VERSION ?= v1.0.0
 proto: proto/bitmex/$(VERSION)/bitmex.proto
 	@ if ! which protoc > /dev/null; then \
 		echo "error: protoc not installed" >&2; \

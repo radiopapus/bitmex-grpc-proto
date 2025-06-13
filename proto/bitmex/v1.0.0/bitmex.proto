@@ -1,7 +1,7 @@
 syntax = "proto3";
 package bitmex;
 
-option go_package = "radiopapus.bitmex.v1";
+option go_package = "radiopapus.bitmex.v1.0.0";
 
 service EchoService {
   rpc Ping (PingRequest) returns (PingResponse);
