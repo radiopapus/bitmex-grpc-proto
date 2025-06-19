@@ -119,3 +119,109 @@ var EchoService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "bitmex.proto",
 }
+
+const (
+	BitmexService_Login_FullMethodName = "/bitmex.BitmexService/Login"
+)
+
+// BitmexServiceClient is the client API for BitmexService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// Сервис для работы с Bitmex
+type BitmexServiceClient interface {
+	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+}
+
+type bitmexServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewBitmexServiceClient(cc grpc.ClientConnInterface) BitmexServiceClient {
+	return &bitmexServiceClient{cc}
+}
+
+func (c *bitmexServiceClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LoginResponse)
+	err := c.cc.Invoke(ctx, BitmexService_Login_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// BitmexServiceServer is the server API for BitmexService service.
+// All implementations must embed UnimplementedBitmexServiceServer
+// for forward compatibility.
+//
+// Сервис для работы с Bitmex
+type BitmexServiceServer interface {
+	Login(context.Context, *LoginRequest) (*LoginResponse, error)
+	mustEmbedUnimplementedBitmexServiceServer()
+}
+
+// UnimplementedBitmexServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedBitmexServiceServer struct{}
+
+func (UnimplementedBitmexServiceServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedBitmexServiceServer) mustEmbedUnimplementedBitmexServiceServer() {}
+func (UnimplementedBitmexServiceServer) testEmbeddedByValue()                       {}
+
+// UnsafeBitmexServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BitmexServiceServer will
+// result in compilation errors.
+type UnsafeBitmexServiceServer interface {
+	mustEmbedUnimplementedBitmexServiceServer()
+}
+
+func RegisterBitmexServiceServer(s grpc.ServiceRegistrar, srv BitmexServiceServer) {
+	// If the following call pancis, it indicates UnimplementedBitmexServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&BitmexService_ServiceDesc, srv)
+}
+
+func _BitmexService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BitmexServiceServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BitmexService_Login_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BitmexServiceServer).Login(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// BitmexService_ServiceDesc is the grpc.ServiceDesc for BitmexService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var BitmexService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "bitmex.BitmexService",
+	HandlerType: (*BitmexServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Login",
+			Handler:    _BitmexService_Login_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "bitmex.proto",
+}
