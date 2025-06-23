@@ -10,7 +10,6 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,242 +20,51 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type PingRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *PingRequest) Reset() {
-	*x = PingRequest{}
-	mi := &file_bitmex_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *PingRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PingRequest) ProtoMessage() {}
-
-func (x *PingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_bitmex_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PingRequest.ProtoReflect.Descriptor instead.
-func (*PingRequest) Descriptor() ([]byte, []int) {
-	return file_bitmex_proto_rawDescGZIP(), []int{0}
-}
-
-type PingResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Reply         string                 `protobuf:"bytes,1,opt,name=Reply,proto3" json:"Reply,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *PingResponse) Reset() {
-	*x = PingResponse{}
-	mi := &file_bitmex_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *PingResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PingResponse) ProtoMessage() {}
-
-func (x *PingResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_bitmex_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PingResponse.ProtoReflect.Descriptor instead.
-func (*PingResponse) Descriptor() ([]byte, []int) {
-	return file_bitmex_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *PingResponse) GetReply() string {
-	if x != nil {
-		return x.Reply
-	}
-	return ""
-}
-
-type LoginRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Идентификатор для Bitmex API
-	Id string `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
-	// Секрет для Bitmex API
-	Secret        string `protobuf:"bytes,2,opt,name=Secret,proto3" json:"Secret,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *LoginRequest) Reset() {
-	*x = LoginRequest{}
-	mi := &file_bitmex_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *LoginRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*LoginRequest) ProtoMessage() {}
-
-func (x *LoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_bitmex_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
-func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return file_bitmex_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *LoginRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *LoginRequest) GetSecret() string {
-	if x != nil {
-		return x.Secret
-	}
-	return ""
-}
-
-type LoginResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Token от Bitmex для работы с API
-	Token string `protobuf:"bytes,1,opt,name=Token,proto3" json:"Token,omitempty"`
-	// Результат
-	Success       bool `protobuf:"varint,2,opt,name=Success,proto3" json:"Success,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *LoginResponse) Reset() {
-	*x = LoginResponse{}
-	mi := &file_bitmex_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *LoginResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*LoginResponse) ProtoMessage() {}
-
-func (x *LoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_bitmex_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
-func (*LoginResponse) Descriptor() ([]byte, []int) {
-	return file_bitmex_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *LoginResponse) GetToken() string {
-	if x != nil {
-		return x.Token
-	}
-	return ""
-}
-
-func (x *LoginResponse) GetSuccess() bool {
-	if x != nil {
-		return x.Success
-	}
-	return false
-}
-
 var File_bitmex_proto protoreflect.FileDescriptor
 
 const file_bitmex_proto_rawDesc = "" +
 	"\n" +
-	"\fbitmex.proto\x12\x06bitmex\"\r\n" +
-	"\vPingRequest\"$\n" +
-	"\fPingResponse\x12\x14\n" +
-	"\x05Reply\x18\x01 \x01(\tR\x05Reply\"6\n" +
-	"\fLoginRequest\x12\x0e\n" +
-	"\x02Id\x18\x01 \x01(\tR\x02Id\x12\x16\n" +
-	"\x06Secret\x18\x02 \x01(\tR\x06Secret\"?\n" +
-	"\rLoginResponse\x12\x14\n" +
-	"\x05Token\x18\x01 \x01(\tR\x05Token\x12\x18\n" +
-	"\aSuccess\x18\x02 \x01(\bR\aSuccess2@\n" +
-	"\vEchoService\x121\n" +
-	"\x04Ping\x12\x13.bitmex.PingRequest\x1a\x14.bitmex.PingResponse2E\n" +
+	"\fbitmex.proto\x12\x06bitmex\x1a\vorder.proto\x1a\rutility.proto2\x90\x02\n" +
 	"\rBitmexService\x124\n" +
-	"\x05Login\x12\x14.bitmex.LoginRequest\x1a\x15.bitmex.LoginResponseB)Z'github.com/radiopapus/bitmex-grpc-protob\x06proto3"
+	"\x05Login\x12\x14.bitmex.LoginRequest\x1a\x15.bitmex.LoginResponse\x12E\n" +
+	"\tGetOrders\x12\x1c.bitmex.GetOrdersListRequest\x1a\x1a.bitmex.OrdersListResponse\x12@\n" +
+	"\vCreateOrder\x12\x1a.bitmex.CreateOrderRequest\x1a\x15.bitmex.OrderResponse\x12@\n" +
+	"\vCancelOrder\x12\x1a.bitmex.CancelOrderRequest\x1a\x15.bitmex.OrderResponse2\x85\x01\n" +
+	"\x0eUtilityService\x121\n" +
+	"\x04Ping\x12\x13.bitmex.PingRequest\x1a\x14.bitmex.PingResponse\x12@\n" +
+	"\vSetLogLevel\x12\x17.bitmex.LogLevelRequest\x1a\x18.bitmex.LogLevelResponseB)Z'github.com/radiopapus/bitmex-grpc-protob\x06proto3"
 
-var (
-	file_bitmex_proto_rawDescOnce sync.Once
-	file_bitmex_proto_rawDescData []byte
-)
-
-func file_bitmex_proto_rawDescGZIP() []byte {
-	file_bitmex_proto_rawDescOnce.Do(func() {
-		file_bitmex_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_bitmex_proto_rawDesc), len(file_bitmex_proto_rawDesc)))
-	})
-	return file_bitmex_proto_rawDescData
-}
-
-var file_bitmex_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_bitmex_proto_goTypes = []any{
-	(*PingRequest)(nil),   // 0: bitmex.PingRequest
-	(*PingResponse)(nil),  // 1: bitmex.PingResponse
-	(*LoginRequest)(nil),  // 2: bitmex.LoginRequest
-	(*LoginResponse)(nil), // 3: bitmex.LoginResponse
+	(*LoginRequest)(nil),         // 0: bitmex.LoginRequest
+	(*GetOrdersListRequest)(nil), // 1: bitmex.GetOrdersListRequest
+	(*CreateOrderRequest)(nil),   // 2: bitmex.CreateOrderRequest
+	(*CancelOrderRequest)(nil),   // 3: bitmex.CancelOrderRequest
+	(*PingRequest)(nil),          // 4: bitmex.PingRequest
+	(*LogLevelRequest)(nil),      // 5: bitmex.LogLevelRequest
+	(*LoginResponse)(nil),        // 6: bitmex.LoginResponse
+	(*OrdersListResponse)(nil),   // 7: bitmex.OrdersListResponse
+	(*OrderResponse)(nil),        // 8: bitmex.OrderResponse
+	(*PingResponse)(nil),         // 9: bitmex.PingResponse
+	(*LogLevelResponse)(nil),     // 10: bitmex.LogLevelResponse
 }
 var file_bitmex_proto_depIdxs = []int32{
-	0, // 0: bitmex.EchoService.Ping:input_type -> bitmex.PingRequest
-	2, // 1: bitmex.BitmexService.Login:input_type -> bitmex.LoginRequest
-	1, // 2: bitmex.EchoService.Ping:output_type -> bitmex.PingResponse
-	3, // 3: bitmex.BitmexService.Login:output_type -> bitmex.LoginResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: bitmex.BitmexService.Login:input_type -> bitmex.LoginRequest
+	1,  // 1: bitmex.BitmexService.GetOrders:input_type -> bitmex.GetOrdersListRequest
+	2,  // 2: bitmex.BitmexService.CreateOrder:input_type -> bitmex.CreateOrderRequest
+	3,  // 3: bitmex.BitmexService.CancelOrder:input_type -> bitmex.CancelOrderRequest
+	4,  // 4: bitmex.UtilityService.Ping:input_type -> bitmex.PingRequest
+	5,  // 5: bitmex.UtilityService.SetLogLevel:input_type -> bitmex.LogLevelRequest
+	6,  // 6: bitmex.BitmexService.Login:output_type -> bitmex.LoginResponse
+	7,  // 7: bitmex.BitmexService.GetOrders:output_type -> bitmex.OrdersListResponse
+	8,  // 8: bitmex.BitmexService.CreateOrder:output_type -> bitmex.OrderResponse
+	8,  // 9: bitmex.BitmexService.CancelOrder:output_type -> bitmex.OrderResponse
+	9,  // 10: bitmex.UtilityService.Ping:output_type -> bitmex.PingResponse
+	10, // 11: bitmex.UtilityService.SetLogLevel:output_type -> bitmex.LogLevelResponse
+	6,  // [6:12] is the sub-list for method output_type
+	0,  // [0:6] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_bitmex_proto_init() }
@@ -264,19 +72,20 @@ func file_bitmex_proto_init() {
 	if File_bitmex_proto != nil {
 		return
 	}
+	file_order_proto_init()
+	file_utility_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_bitmex_proto_rawDesc), len(file_bitmex_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   2,
 		},
 		GoTypes:           file_bitmex_proto_goTypes,
 		DependencyIndexes: file_bitmex_proto_depIdxs,
-		MessageInfos:      file_bitmex_proto_msgTypes,
 	}.Build()
 	File_bitmex_proto = out.File
 	file_bitmex_proto_goTypes = nil

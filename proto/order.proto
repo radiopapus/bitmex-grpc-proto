@@ -1,0 +1,56 @@
+syntax = "proto3";
+package bitmex;
+
+option go_package = "github.com/radiopapus/bitmex-grpc-proto";
+
+message LoginRequest {
+  // Идентификатор для Bitmex API
+  string Id = 1;
+  // Секрет для Bitmex API
+  string Secret = 2;
+}
+
+message LoginResponse {
+  // Token от Bitmex для работы с API
+  string Token = 1;
+  // Результат
+  bool Success = 2;
+}
+
+enum OrderType {
+  ORDER_TYPE_UNSPECIFIED = 0;
+  ORDER_TYPE_LIMIT = 1;
+}
+
+message CreateOrderRequest {
+  OrderType OrdType = 1;
+  // Like USDT
+  string Symbol = 2;
+  string ClOrdID = 3;
+  double Price = 4;
+  int32 OrderQty = 5;
+}
+
+message CancelOrderRequest {
+  string ClOrdId = 1;
+}
+
+message GetOrdersListRequest {
+  // Instrument symbol. Send a bare series (e.g. XBT) to get data for the nearest expiring contract in that series.
+  // Can send a timeframe, e.g. XBT:quarterly. Timeframes are nearest, daily, weekly, monthly, quarterly, 
+  // biquarterly, and perpetual.
+  // Symbols are case-insensitive.
+  string Symbol = 1;
+  int32 Start = 2;
+  int32 Count = 3;
+}
+
+message OrderResponse {
+  double Price = 1;
+  string OrderType = 2;
+  string ClOrdId = 3;
+}
+
+message OrdersListResponse{
+  repeated OrderResponse Orders = 1;
+}

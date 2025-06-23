@@ -19,109 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	EchoService_Ping_FullMethodName = "/bitmex.EchoService/Ping"
-)
-
-// EchoServiceClient is the client API for EchoService service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type EchoServiceClient interface {
-	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
-}
-
-type echoServiceClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewEchoServiceClient(cc grpc.ClientConnInterface) EchoServiceClient {
-	return &echoServiceClient{cc}
-}
-
-func (c *echoServiceClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PingResponse)
-	err := c.cc.Invoke(ctx, EchoService_Ping_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// EchoServiceServer is the server API for EchoService service.
-// All implementations must embed UnimplementedEchoServiceServer
-// for forward compatibility.
-type EchoServiceServer interface {
-	Ping(context.Context, *PingRequest) (*PingResponse, error)
-	mustEmbedUnimplementedEchoServiceServer()
-}
-
-// UnimplementedEchoServiceServer must be embedded to have
-// forward compatible implementations.
-//
-// NOTE: this should be embedded by value instead of pointer to avoid a nil
-// pointer dereference when methods are called.
-type UnimplementedEchoServiceServer struct{}
-
-func (UnimplementedEchoServiceServer) Ping(context.Context, *PingRequest) (*PingResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
-}
-func (UnimplementedEchoServiceServer) mustEmbedUnimplementedEchoServiceServer() {}
-func (UnimplementedEchoServiceServer) testEmbeddedByValue()                     {}
-
-// UnsafeEchoServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to EchoServiceServer will
-// result in compilation errors.
-type UnsafeEchoServiceServer interface {
-	mustEmbedUnimplementedEchoServiceServer()
-}
-
-func RegisterEchoServiceServer(s grpc.ServiceRegistrar, srv EchoServiceServer) {
-	// If the following call pancis, it indicates UnimplementedEchoServiceServer was
-	// embedded by pointer and is nil.  This will cause panics if an
-	// unimplemented method is ever invoked, so we test this at initialization
-	// time to prevent it from happening at runtime later due to I/O.
-	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
-		t.testEmbeddedByValue()
-	}
-	s.RegisterService(&EchoService_ServiceDesc, srv)
-}
-
-func _EchoService_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PingRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(EchoServiceServer).Ping(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: EchoService_Ping_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EchoServiceServer).Ping(ctx, req.(*PingRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// EchoService_ServiceDesc is the grpc.ServiceDesc for EchoService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var EchoService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "bitmex.EchoService",
-	HandlerType: (*EchoServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Ping",
-			Handler:    _EchoService_Ping_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "bitmex.proto",
-}
-
-const (
-	BitmexService_Login_FullMethodName = "/bitmex.BitmexService/Login"
+	BitmexService_Login_FullMethodName       = "/bitmex.BitmexService/Login"
+	BitmexService_GetOrders_FullMethodName   = "/bitmex.BitmexService/GetOrders"
+	BitmexService_CreateOrder_FullMethodName = "/bitmex.BitmexService/CreateOrder"
+	BitmexService_CancelOrder_FullMethodName = "/bitmex.BitmexService/CancelOrder"
 )
 
 // BitmexServiceClient is the client API for BitmexService service.
@@ -131,6 +32,13 @@ const (
 // Сервис для работы с Bitmex
 type BitmexServiceClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	// rpc Tick (LoginRequest) returns (LoginResponse); stream
+	// rpc Trade (LoginRequest) returns (LoginResponse); stream
+	// rpc OrderBook (LoginRequest) returns (LoginResponse); stream
+	// rpc Positions (LoginRequest) returns (LoginResponse); stream
+	GetOrders(ctx context.Context, in *GetOrdersListRequest, opts ...grpc.CallOption) (*OrdersListResponse, error)
+	CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*OrderResponse, error)
+	CancelOrder(ctx context.Context, in *CancelOrderRequest, opts ...grpc.CallOption) (*OrderResponse, error)
 }
 
 type bitmexServiceClient struct {
@@ -151,6 +59,36 @@ func (c *bitmexServiceClient) Login(ctx context.Context, in *LoginRequest, opts 
 	return out, nil
 }
 
+func (c *bitmexServiceClient) GetOrders(ctx context.Context, in *GetOrdersListRequest, opts ...grpc.CallOption) (*OrdersListResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrdersListResponse)
+	err := c.cc.Invoke(ctx, BitmexService_GetOrders_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bitmexServiceClient) CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*OrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrderResponse)
+	err := c.cc.Invoke(ctx, BitmexService_CreateOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bitmexServiceClient) CancelOrder(ctx context.Context, in *CancelOrderRequest, opts ...grpc.CallOption) (*OrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrderResponse)
+	err := c.cc.Invoke(ctx, BitmexService_CancelOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BitmexServiceServer is the server API for BitmexService service.
 // All implementations must embed UnimplementedBitmexServiceServer
 // for forward compatibility.
@@ -158,6 +96,13 @@ func (c *bitmexServiceClient) Login(ctx context.Context, in *LoginRequest, opts 
 // Сервис для работы с Bitmex
 type BitmexServiceServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
+	// rpc Tick (LoginRequest) returns (LoginResponse); stream
+	// rpc Trade (LoginRequest) returns (LoginResponse); stream
+	// rpc OrderBook (LoginRequest) returns (LoginResponse); stream
+	// rpc Positions (LoginRequest) returns (LoginResponse); stream
+	GetOrders(context.Context, *GetOrdersListRequest) (*OrdersListResponse, error)
+	CreateOrder(context.Context, *CreateOrderRequest) (*OrderResponse, error)
+	CancelOrder(context.Context, *CancelOrderRequest) (*OrderResponse, error)
 	mustEmbedUnimplementedBitmexServiceServer()
 }
 
@@ -170,6 +115,15 @@ type UnimplementedBitmexServiceServer struct{}
 
 func (UnimplementedBitmexServiceServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedBitmexServiceServer) GetOrders(context.Context, *GetOrdersListRequest) (*OrdersListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrders not implemented")
+}
+func (UnimplementedBitmexServiceServer) CreateOrder(context.Context, *CreateOrderRequest) (*OrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
+}
+func (UnimplementedBitmexServiceServer) CancelOrder(context.Context, *CancelOrderRequest) (*OrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelOrder not implemented")
 }
 func (UnimplementedBitmexServiceServer) mustEmbedUnimplementedBitmexServiceServer() {}
 func (UnimplementedBitmexServiceServer) testEmbeddedByValue()                       {}
@@ -210,6 +164,60 @@ func _BitmexService_Login_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BitmexService_GetOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOrdersListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BitmexServiceServer).GetOrders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BitmexService_GetOrders_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BitmexServiceServer).GetOrders(ctx, req.(*GetOrdersListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BitmexService_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BitmexServiceServer).CreateOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BitmexService_CreateOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BitmexServiceServer).CreateOrder(ctx, req.(*CreateOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BitmexService_CancelOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BitmexServiceServer).CancelOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BitmexService_CancelOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BitmexServiceServer).CancelOrder(ctx, req.(*CancelOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BitmexService_ServiceDesc is the grpc.ServiceDesc for BitmexService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -220,6 +228,162 @@ var BitmexService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Login",
 			Handler:    _BitmexService_Login_Handler,
+		},
+		{
+			MethodName: "GetOrders",
+			Handler:    _BitmexService_GetOrders_Handler,
+		},
+		{
+			MethodName: "CreateOrder",
+			Handler:    _BitmexService_CreateOrder_Handler,
+		},
+		{
+			MethodName: "CancelOrder",
+			Handler:    _BitmexService_CancelOrder_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "bitmex.proto",
+}
+
+const (
+	UtilityService_Ping_FullMethodName        = "/bitmex.UtilityService/Ping"
+	UtilityService_SetLogLevel_FullMethodName = "/bitmex.UtilityService/SetLogLevel"
+)
+
+// UtilityServiceClient is the client API for UtilityService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// utility сервис для служебных нужд
+type UtilityServiceClient interface {
+	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
+	SetLogLevel(ctx context.Context, in *LogLevelRequest, opts ...grpc.CallOption) (*LogLevelResponse, error)
+}
+
+type utilityServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewUtilityServiceClient(cc grpc.ClientConnInterface) UtilityServiceClient {
+	return &utilityServiceClient{cc}
+}
+
+func (c *utilityServiceClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PingResponse)
+	err := c.cc.Invoke(ctx, UtilityService_Ping_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *utilityServiceClient) SetLogLevel(ctx context.Context, in *LogLevelRequest, opts ...grpc.CallOption) (*LogLevelResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LogLevelResponse)
+	err := c.cc.Invoke(ctx, UtilityService_SetLogLevel_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// UtilityServiceServer is the server API for UtilityService service.
+// All implementations must embed UnimplementedUtilityServiceServer
+// for forward compatibility.
+//
+// utility сервис для служебных нужд
+type UtilityServiceServer interface {
+	Ping(context.Context, *PingRequest) (*PingResponse, error)
+	SetLogLevel(context.Context, *LogLevelRequest) (*LogLevelResponse, error)
+	mustEmbedUnimplementedUtilityServiceServer()
+}
+
+// UnimplementedUtilityServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedUtilityServiceServer struct{}
+
+func (UnimplementedUtilityServiceServer) Ping(context.Context, *PingRequest) (*PingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
+}
+func (UnimplementedUtilityServiceServer) SetLogLevel(context.Context, *LogLevelRequest) (*LogLevelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetLogLevel not implemented")
+}
+func (UnimplementedUtilityServiceServer) mustEmbedUnimplementedUtilityServiceServer() {}
+func (UnimplementedUtilityServiceServer) testEmbeddedByValue()                        {}
+
+// UnsafeUtilityServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to UtilityServiceServer will
+// result in compilation errors.
+type UnsafeUtilityServiceServer interface {
+	mustEmbedUnimplementedUtilityServiceServer()
+}
+
+func RegisterUtilityServiceServer(s grpc.ServiceRegistrar, srv UtilityServiceServer) {
+	// If the following call pancis, it indicates UnimplementedUtilityServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&UtilityService_ServiceDesc, srv)
+}
+
+func _UtilityService_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UtilityServiceServer).Ping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UtilityService_Ping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UtilityServiceServer).Ping(ctx, req.(*PingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UtilityService_SetLogLevel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogLevelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UtilityServiceServer).SetLogLevel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UtilityService_SetLogLevel_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UtilityServiceServer).SetLogLevel(ctx, req.(*LogLevelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// UtilityService_ServiceDesc is the grpc.ServiceDesc for UtilityService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var UtilityService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "bitmex.UtilityService",
+	HandlerType: (*UtilityServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Ping",
+			Handler:    _UtilityService_Ping_Handler,
+		},
+		{
+			MethodName: "SetLogLevel",
+			Handler:    _UtilityService_SetLogLevel_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

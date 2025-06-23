@@ -1,35 +1,26 @@
 syntax = "proto3";
+
 package bitmex;
 
+import "order.proto";
+import "utility.proto";
+
 option go_package = "github.com/radiopapus/bitmex-grpc-proto";
-
-service EchoService {
-  rpc Ping (PingRequest) returns (PingResponse);
-}
-
-message PingRequest {}
-
-message PingResponse {
-  string Reply = 1;
-}
-
-message LoginRequest {
-  // Идентификатор для Bitmex API
-  string Id = 1;
-
-  // Секрет для Bitmex API
-  string Secret = 2;
-}
-
-message LoginResponse {
-  // Token от Bitmex для работы с API
-  string Token = 1;
-  // Результат
-  bool Success = 2;
-}
 
 // Сервис для работы с Bitmex
 service BitmexService {
   rpc Login (LoginRequest) returns (LoginResponse);
-  // rpc tick (LoginRequest) returns (LoginResponse);
+  // rpc Tick (LoginRequest) returns (LoginResponse); stream
+  // rpc Trade (LoginRequest) returns (LoginResponse); stream
+  // rpc OrderBook (LoginRequest) returns (LoginResponse); stream
+  // rpc Positions (LoginRequest) returns (LoginResponse); stream
+  rpc GetOrders (GetOrdersListRequest) returns (OrdersListResponse);
+  rpc CreateOrder (CreateOrderRequest) returns (OrderResponse);
+  rpc CancelOrder (CancelOrderRequest) returns (OrderResponse);
+}
+
+// utility сервис для служебных нужд
+service UtilityService {
+  rpc Ping (PingRequest) returns (PingResponse);
+  rpc SetLogLevel (LogLevelRequest) returns (LogLevelResponse);
 }

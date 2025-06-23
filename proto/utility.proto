@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package bitmex;
+
+option go_package = "github.com/radiopapus/bitmex-grpc-proto";
+
+
+message PingRequest {}
+
+message PingResponse {
+  string Reply = 1;
+}
+
+message LogLevelRequest {
+  // Уровень логирования (INFO, DEBUG, WARN, ERROR)
+  string Level = 1;
+
+  // конкретный пакет 
+  // string Package = 2;
+}
+
+message LogLevelResponse {
+  // Результат
+  bool Success = 1;
+}
