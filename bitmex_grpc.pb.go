@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	BitmexService_Login_FullMethodName       = "/bitmex.BitmexService/Login"
+	BitmexService_GetUser_FullMethodName     = "/bitmex.BitmexService/GetUser"
 	BitmexService_GetOrders_FullMethodName   = "/bitmex.BitmexService/GetOrders"
 	BitmexService_CreateOrder_FullMethodName = "/bitmex.BitmexService/CreateOrder"
 	BitmexService_CancelOrder_FullMethodName = "/bitmex.BitmexService/CancelOrder"
@@ -31,11 +31,11 @@ const (
 //
 // Сервис для работы с Bitmex
 type BitmexServiceClient interface {
-	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	// rpc Tick (LoginRequest) returns (LoginResponse); stream
 	// rpc Trade (LoginRequest) returns (LoginResponse); stream
 	// rpc OrderBook (LoginRequest) returns (LoginResponse); stream
 	// rpc Positions (LoginRequest) returns (LoginResponse); stream
+	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	GetOrders(ctx context.Context, in *GetOrdersListRequest, opts ...grpc.CallOption) (*OrdersListResponse, error)
 	CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*OrderResponse, error)
 	CancelOrder(ctx context.Context, in *CancelOrderRequest, opts ...grpc.CallOption) (*OrderResponse, error)
@@ -49,10 +49,10 @@ func NewBitmexServiceClient(cc grpc.ClientConnInterface) BitmexServiceClient {
 	return &bitmexServiceClient{cc}
 }
 
-func (c *bitmexServiceClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+func (c *bitmexServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LoginResponse)
-	err := c.cc.Invoke(ctx, BitmexService_Login_FullMethodName, in, out, cOpts...)
+	out := new(GetUserResponse)
+	err := c.cc.Invoke(ctx, BitmexService_GetUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -95,11 +95,11 @@ func (c *bitmexServiceClient) CancelOrder(ctx context.Context, in *CancelOrderRe
 //
 // Сервис для работы с Bitmex
 type BitmexServiceServer interface {
-	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	// rpc Tick (LoginRequest) returns (LoginResponse); stream
 	// rpc Trade (LoginRequest) returns (LoginResponse); stream
 	// rpc OrderBook (LoginRequest) returns (LoginResponse); stream
 	// rpc Positions (LoginRequest) returns (LoginResponse); stream
+	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	GetOrders(context.Context, *GetOrdersListRequest) (*OrdersListResponse, error)
 	CreateOrder(context.Context, *CreateOrderRequest) (*OrderResponse, error)
 	CancelOrder(context.Context, *CancelOrderRequest) (*OrderResponse, error)
@@ -113,8 +113,8 @@ type BitmexServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedBitmexServiceServer struct{}
 
-func (UnimplementedBitmexServiceServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+func (UnimplementedBitmexServiceServer) GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
 func (UnimplementedBitmexServiceServer) GetOrders(context.Context, *GetOrdersListRequest) (*OrdersListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrders not implemented")
@@ -146,20 +146,20 @@ func RegisterBitmexServiceServer(s grpc.ServiceRegistrar, srv BitmexServiceServe
 	s.RegisterService(&BitmexService_ServiceDesc, srv)
 }
 
-func _BitmexService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LoginRequest)
+func _BitmexService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BitmexServiceServer).Login(ctx, in)
+		return srv.(BitmexServiceServer).GetUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: BitmexService_Login_FullMethodName,
+		FullMethod: BitmexService_GetUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BitmexServiceServer).Login(ctx, req.(*LoginRequest))
+		return srv.(BitmexServiceServer).GetUser(ctx, req.(*GetUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -226,8 +226,8 @@ var BitmexService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*BitmexServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Login",
-			Handler:    _BitmexService_Login_Handler,
+			MethodName: "GetUser",
+			Handler:    _BitmexService_GetUser_Handler,
 		},
 		{
 			MethodName: "GetOrders",

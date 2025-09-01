@@ -1,21 +1,8 @@
 syntax = "proto3";
+
 package bitmex;
 
 option go_package = "github.com/radiopapus/bitmex-grpc-proto";
-
-message LoginRequest {
-  // Идентификатор для Bitmex API
-  string Id = 1;
-  // Секрет для Bitmex API
-  string Secret = 2;
-}
-
-message LoginResponse {
-  // Token от Bitmex для работы с API
-  string Token = 1;
-  // Результат
-  bool Success = 2;
-}
 
 enum OrderType {
   ORDER_TYPE_UNSPECIFIED = 0;

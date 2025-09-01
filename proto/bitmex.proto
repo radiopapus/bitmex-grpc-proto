@@ -3,17 +3,18 @@ syntax = "proto3";
 package bitmex;
 
 import "order.proto";
+import "user.proto";
 import "utility.proto";
 
 option go_package = "github.com/radiopapus/bitmex-grpc-proto";
 
 // Сервис для работы с Bitmex
 service BitmexService {
-  rpc Login (LoginRequest) returns (LoginResponse);
   // rpc Tick (LoginRequest) returns (LoginResponse); stream
   // rpc Trade (LoginRequest) returns (LoginResponse); stream
   // rpc OrderBook (LoginRequest) returns (LoginResponse); stream
   // rpc Positions (LoginRequest) returns (LoginResponse); stream
+  rpc GetUser (GetUserRequest) returns (GetUserResponse);
   rpc GetOrders (GetOrdersListRequest) returns (OrdersListResponse);
   rpc CreateOrder (CreateOrderRequest) returns (OrderResponse);
   rpc CancelOrder (CancelOrderRequest) returns (OrderResponse);

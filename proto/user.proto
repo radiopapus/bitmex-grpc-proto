@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package bitmex;
+
+option go_package = "github.com/radiopapus/bitmex-grpc-proto";
+
+message GetUserRequest {
+  string ApiSecret = 1;
+  string ApiId = 2;
+}
+
+message GetUserResponse {
+  int64 id = 1;
+  string firstname = 2;
+  string lastname = 3;
+  string username = 4;
+}

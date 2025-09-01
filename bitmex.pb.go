@@ -24,9 +24,10 @@ var File_bitmex_proto protoreflect.FileDescriptor
 
 const file_bitmex_proto_rawDesc = "" +
 	"\n" +
-	"\fbitmex.proto\x12\x06bitmex\x1a\vorder.proto\x1a\rutility.proto2\x90\x02\n" +
-	"\rBitmexService\x124\n" +
-	"\x05Login\x12\x14.bitmex.LoginRequest\x1a\x15.bitmex.LoginResponse\x12E\n" +
+	"\fbitmex.proto\x12\x06bitmex\x1a\vorder.proto\x1a\n" +
+	"user.proto\x1a\rutility.proto2\x96\x02\n" +
+	"\rBitmexService\x12:\n" +
+	"\aGetUser\x12\x16.bitmex.GetUserRequest\x1a\x17.bitmex.GetUserResponse\x12E\n" +
 	"\tGetOrders\x12\x1c.bitmex.GetOrdersListRequest\x1a\x1a.bitmex.OrdersListResponse\x12@\n" +
 	"\vCreateOrder\x12\x1a.bitmex.CreateOrderRequest\x1a\x15.bitmex.OrderResponse\x12@\n" +
 	"\vCancelOrder\x12\x1a.bitmex.CancelOrderRequest\x1a\x15.bitmex.OrderResponse2\x85\x01\n" +
@@ -35,26 +36,26 @@ const file_bitmex_proto_rawDesc = "" +
 	"\vSetLogLevel\x12\x17.bitmex.LogLevelRequest\x1a\x18.bitmex.LogLevelResponseB)Z'github.com/radiopapus/bitmex-grpc-protob\x06proto3"
 
 var file_bitmex_proto_goTypes = []any{
-	(*LoginRequest)(nil),         // 0: bitmex.LoginRequest
+	(*GetUserRequest)(nil),       // 0: bitmex.GetUserRequest
 	(*GetOrdersListRequest)(nil), // 1: bitmex.GetOrdersListRequest
 	(*CreateOrderRequest)(nil),   // 2: bitmex.CreateOrderRequest
 	(*CancelOrderRequest)(nil),   // 3: bitmex.CancelOrderRequest
 	(*PingRequest)(nil),          // 4: bitmex.PingRequest
 	(*LogLevelRequest)(nil),      // 5: bitmex.LogLevelRequest
-	(*LoginResponse)(nil),        // 6: bitmex.LoginResponse
+	(*GetUserResponse)(nil),      // 6: bitmex.GetUserResponse
 	(*OrdersListResponse)(nil),   // 7: bitmex.OrdersListResponse
 	(*OrderResponse)(nil),        // 8: bitmex.OrderResponse
 	(*PingResponse)(nil),         // 9: bitmex.PingResponse
 	(*LogLevelResponse)(nil),     // 10: bitmex.LogLevelResponse
 }
 var file_bitmex_proto_depIdxs = []int32{
-	0,  // 0: bitmex.BitmexService.Login:input_type -> bitmex.LoginRequest
+	0,  // 0: bitmex.BitmexService.GetUser:input_type -> bitmex.GetUserRequest
 	1,  // 1: bitmex.BitmexService.GetOrders:input_type -> bitmex.GetOrdersListRequest
 	2,  // 2: bitmex.BitmexService.CreateOrder:input_type -> bitmex.CreateOrderRequest
 	3,  // 3: bitmex.BitmexService.CancelOrder:input_type -> bitmex.CancelOrderRequest
 	4,  // 4: bitmex.UtilityService.Ping:input_type -> bitmex.PingRequest
 	5,  // 5: bitmex.UtilityService.SetLogLevel:input_type -> bitmex.LogLevelRequest
-	6,  // 6: bitmex.BitmexService.Login:output_type -> bitmex.LoginResponse
+	6,  // 6: bitmex.BitmexService.GetUser:output_type -> bitmex.GetUserResponse
 	7,  // 7: bitmex.BitmexService.GetOrders:output_type -> bitmex.OrdersListResponse
 	8,  // 8: bitmex.BitmexService.CreateOrder:output_type -> bitmex.OrderResponse
 	8,  // 9: bitmex.BitmexService.CancelOrder:output_type -> bitmex.OrderResponse
@@ -73,6 +74,7 @@ func file_bitmex_proto_init() {
 		return
 	}
 	file_order_proto_init()
+	file_user_proto_init()
 	file_utility_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{

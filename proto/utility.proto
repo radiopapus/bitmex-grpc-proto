@@ -4,7 +4,6 @@ package bitmex;
 
 option go_package = "github.com/radiopapus/bitmex-grpc-proto";
 
-
 message PingRequest {}
 
 message PingResponse {
